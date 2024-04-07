@@ -222,12 +222,15 @@ mod tests {
     use super::*;
     use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};
     use cosmwasm_std::{coin, CosmosMsg, WasmMsg};
+    //let mut deps = mock_dependencies(&[]);
+    static mut DEPS: Option<cosmwasm_std::testing::MockStorage> = None;
+    // let env = mock_env();
 
     #[test]
     fn test_register_business() {
         // Initialize mock dependencies, environment, and info
-        let mut deps = mock_dependencies(&[]);
         let env = mock_env();
+
         let info = mock_info("creator", &[]);
 
         // Execute the RegisterBusiness message
@@ -250,7 +253,6 @@ mod tests {
     #[test]
     fn test_create_campaign() {
         // Initialize mock dependencies, environment, and info
-        let mut deps = mock_dependencies(&[]);
         let env = mock_env();
         let info = mock_info("creator", &[]);
 
@@ -280,8 +282,8 @@ mod tests {
     #[test]
     fn test_donate_and_update_progress() {
         // Initialize mock dependencies, environment, and info
-        let mut deps = mock_dependencies(&[]);
         let env = mock_env();
+
         let info = mock_info("donor", &[]);
 
         // Create a sample campaign
@@ -368,7 +370,7 @@ mod tests {
 #[test]
 fn test_get_campaign() {
     // Initialize mock dependencies and storage
-    let mut deps = mock_dependencies(&[]);
+    let env = mock_env();
 
     // Create a sample campaign
     let campaign_id = 1;
@@ -413,8 +415,8 @@ fn test_get_campaign() {
 #[test]
 fn test_invalid_donate_campaign_not_exist() {
     // Test donating to a non-existent campaign
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let info = mock_info("donor", &[]);
     let res = handle(
         deps.as_mut(),
@@ -432,8 +434,8 @@ fn test_invalid_donate_campaign_not_exist() {
 #[test]
 fn test_boundary_case_donate_recurring() {
     // Test donating a large amount with recurring donation
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let info = mock_info("donor", &[]);
     let res = handle(
         deps.as_mut(),
@@ -451,8 +453,8 @@ fn test_boundary_case_donate_recurring() {
 #[test]
 fn test_contract_interaction_create_campaign() {
     // Test creating a campaign and verifying storage changes
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let info = mock_info("creator", &[]);
     let res = handle(
         deps.as_mut(),
@@ -476,8 +478,8 @@ fn test_contract_interaction_create_campaign() {
 #[test]
 fn test_gas_consumption_donate() {
     // Test the gas consumption of the donate function
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let info = mock_info("donor", &[]);
     let mut campaign = Campaign {
         id: 1,
@@ -521,8 +523,8 @@ fn test_gas_consumption_donate() {
 #[test]
 fn test_concurrent_access_donate() {
     // Test concurrent access to donate function
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let info = mock_info("donor", &[]);
     let mut campaign = Campaign {
         id: 1,
@@ -582,8 +584,8 @@ fn test_concurrent_access_donate() {
 #[test]
 fn test_recurring_donations() {
     // Initialize mock dependencies, environment, and info
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let donor = "donor";
     let info = mock_info(donor, &[]);
 
@@ -644,8 +646,8 @@ fn test_recurring_donations() {
 #[test]
 fn test_campaign_expiry() {
     // Initialize mock dependencies, environment, and info
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let donor = "donor";
     let info = mock_info(donor, &[]);
 
@@ -719,8 +721,8 @@ fn test_campaign_expiry() {
 #[test]
 fn test_audit_reports() {
     // Initialize mock dependencies, environment, and info
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let creator = "creator";
     let info = mock_info(creator, &[]);
 
@@ -779,8 +781,8 @@ fn test_audit_reports() {
 #[test]
 fn test_event_emission() {
     // Initialize mock dependencies, environment, and info
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let creator = "creator";
     let info = mock_info(creator, &[]);
 
@@ -836,8 +838,8 @@ fn test_event_emission() {
 #[test]
 fn test_edge_cases() {
     // Initialize mock dependencies, environment, and info
-    let mut deps = mock_dependencies(&[]);
     let env = mock_env();
+
     let creator = "creator";
     let info = mock_info(creator, &[]);
 
