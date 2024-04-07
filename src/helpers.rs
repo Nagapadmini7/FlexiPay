@@ -15,13 +15,18 @@ impl CwTemplateContract {
         self.0.clone()
     }
 
-    pub fn call<T: Into<ExecuteMsg>>(&self, msg: T) -> StdResult<CosmosMsg> {
-        let msg = to_json_binary(&msg.into())?;
-        Ok(WasmMsg::Execute {
+    pub fn call<T: Into<ExecuteMsg>>(&self, msg: T) -> StdResult<CosmosMsg>
+    where
+        T: Serialize + ?Sized,
+    {
+        let binary_msg = to_json_binary(&msg)?;
+
+        let execution_result = WasmMsg::Execute {
             contract_addr: self.addr().into(),
-            msg,
+            msg: binary_msg,
             funds: vec![],
-        }
-        .into())
+        };
+
+        Ok(execution_result.into())
     }
 }
