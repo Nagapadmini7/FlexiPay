@@ -1051,3 +1051,5 @@ mod tests {
             target_percentage_sold: None,
             max_duration: Some(50),
             owner_ended: false
+        }}
+    }
